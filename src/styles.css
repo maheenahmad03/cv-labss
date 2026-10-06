@@ -1,0 +1,507 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * Cognivance Labs — deep-field design system.
+ * Palette is sampled directly from the brand mark and main-hero.png:
+ * near-black blue-biased grounds, deep navy core (#001050), electric blue
+ * (#002080–#003090), cyan filament highlights and violet nebula accents.
+ * Dark only — there is no light mode.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-veil: var(--veil);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-synapse: var(--synapse);
+  --color-synapse-dim: var(--synapse-dim);
+  --color-ash: var(--ash);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* ---- brand primitives, sampled from the mark + hero ---- */
+  --void: #00030b; /* page ground */
+  --abyss: #01071a; /* alternating band */
+  --slab: #04102b; /* card / panel */
+  --deep: #001050; /* logo core navy */
+  --electric: #1e63c4; /* primary blue */
+  --beam: #3d8bf5; /* bright blue */
+  --lift: #63b0ff; /* lifted blue */
+  --ion: #7fd8ff; /* cyan filament — live/active only */
+  --nebula: #8a6bff; /* violet — glow only, never a data series */
+
+  /* ---- semantic tokens ---- */
+  --background: var(--void);
+  --foreground: #e6efff;
+  --paper: var(--void);
+  --veil: var(--abyss);
+  --card: var(--slab);
+  --card-foreground: #e6efff;
+  --primary: var(--beam);
+  --primary-foreground: #00030b;
+  --secondary: #0a1b3d;
+  --secondary-foreground: #e6efff;
+  --muted: #0a1b3d;
+  --muted-foreground: #8095bf;
+  --accent: #0d2350;
+  --accent-foreground: #e6efff;
+  --synapse: var(--ion);
+  --synapse-dim: var(--electric);
+  --ash: #8095bf;
+  --border: #16305e;
+  --input: #16305e;
+  --ring: var(--beam);
+
+  /* ---- status: reserved, never reused as a data series ---- */
+  --ok: #3fa87a;
+  --warn: #d9a441;
+  --critical: #e5484d;
+
+  --shadow-soft: 0 1px 2px #00000080, 0 18px 50px -24px #000814cc;
+  --shadow-lift: 0 2px 8px #00000099, 0 44px 90px -36px #000814e6;
+  --haze-warm: radial-gradient(
+    120% 90% at 12% 8%,
+    color-mix(in oklab, var(--deep) 60%, transparent) 0%,
+    transparent 60%
+  );
+  --haze-cool: radial-gradient(
+    100% 80% at 92% 100%,
+    color-mix(in oklab, var(--nebula) 22%, transparent) 0%,
+    transparent 58%
+  );
+}
+
+/* Instrument scope: any panel that behaves like a screen. One step up from the
+   page ground so a panel reads as a separate surface without a lighter theme. */
+.scope {
+  --background: var(--slab);
+  --foreground: #eaf2ff;
+  --paper: var(--slab);
+  --veil: #061530;
+  --card: #071a38;
+  --card-foreground: #eaf2ff;
+  --primary: var(--lift);
+  --primary-foreground: #00030b;
+  --secondary: #0b2146;
+  --secondary-foreground: #eaf2ff;
+  --muted: #0b2146;
+  --muted-foreground: #90a6ce;
+  --accent: #0e2a57;
+  --accent-foreground: #eaf2ff;
+  --ash: #90a6ce;
+  --border: #1d3d70;
+  --input: #1d3d70;
+  --ring: var(--lift);
+  color: var(--foreground);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--foreground);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--beam) 32%, transparent);
+  }
+}
+
+/* ---------- type scale ---------- */
+
+@utility t-hero {
+  font-weight: 600;
+  font-size: clamp(2.5rem, 6.4vw, 5.5rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+@utility t-section {
+  font-weight: 600;
+  font-size: clamp(1.85rem, 3.6vw, 3.25rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+@utility t-lead {
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  letter-spacing: -0.012em;
+  line-height: 1.5;
+}
+
+@utility t-body {
+  font-weight: 400;
+  font-size: clamp(1rem, 1.2vw, 1.0625rem);
+  line-height: 1.7;
+}
+
+@utility t-marker {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@utility t-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- surreal surfaces ---------- */
+
+@utility haze {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--haze-warm), var(--haze-cool);
+    pointer-events: none;
+  }
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image: radial-gradient(var(--lift) 0.5px, transparent 0.5px);
+    background-size: 3px 3px;
+    mix-blend-mode: screen;
+    opacity: 0.07;
+  }
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--card) 72%, transparent);
+  backdrop-filter: blur(22px) saturate(1.05);
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility hairline {
+  border-top: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+/* instrument screen: dark scope + subtle scanline texture */
+@utility instrument {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 100% at 50% 0%, #0a1f4a 0%, #01081c 70%);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--lift) 7%, transparent) 0px,
+      color-mix(in oklab, var(--lift) 7%, transparent) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+}
+
+@utility grid-fine {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--lift) 10%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--lift) 10%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 28px 28px;
+}
+
+@utility rule-link {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 0;
+    background: currentColor;
+    transition: width 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  &:hover::after,
+  &:focus-visible::after {
+    width: 100%;
+  }
+}
+
+/* ---------- motion (paradromics-style slow fade-rise) ---------- */
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(2px);
+  transition:
+    opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+@utility is-visible {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+@utility rise {
+  animation: rise-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.03);
+  }
+  50% {
+    transform: translate3d(-1.2%, -1.6%, 0) scale(1.08);
+  }
+}
+
+@utility drift-slow {
+  animation: drift 32s ease-in-out infinite;
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee {
+  animation: marquee-x 38s linear infinite;
+}
+
+@keyframes sweep-y {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+
+@utility scan-sweep {
+  animation: sweep-y 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes pulse-dim {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@utility live-dot {
+  animation: pulse-dim 1.8s ease-in-out infinite;
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@utility flow-line {
+  animation: dash-flow 14s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * Research imaging workstation (/research). Scoped under .ws so nothing here
+ * reaches the marketing pages. Same navy surfaces as the research console;
+ * colour on the images is for data.
+ * --------------------------------------------------------------------- */
+.ws .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid #1e3a6e;
+  background: #061733;
+  color: #e6efff;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  font-size: 13px;
+  line-height: 1.2;
+}
+.ws .btn:hover:not(:disabled) {
+  background: #0a1f45;
+  border-color: #3d8bf5;
+}
+.ws .btn:disabled {
+  opacity: 0.45;
+}
+.ws .chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #1e3a6e;
+  background: #061733;
+  color: #c4d2ee;
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+  font-size: 12px;
+}
+.ws .chip:hover {
+  border-color: #3d8bf5;
+  color: #ffffff;
+}
+.ws .chip-on {
+  border-color: #7fd8ff;
+  background: #0b2a5c;
+  color: #e6f7ff;
+}
+.ws .tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid transparent;
+  color: #c4d2ee;
+  border-radius: 5px;
+  padding: 0.3rem 0.55rem;
+  font-size: 12.5px;
+}
+.ws .tool:hover {
+  background: #061733;
+  color: #ffffff;
+}
+.ws .tool-on {
+  border-color: #7fd8ff;
+  background: #0b2a5c;
+  color: #e6f7ff;
+}
+.ws .field {
+  border: 1px solid #1e3a6e;
+  background: #01071a;
+  color: #e6efff;
+  border-radius: 5px;
+  padding: 0.3rem 0.45rem;
+  font-size: 13px;
+}
+.ws input[type="range"] {
+  accent-color: #7fd8ff;
+}
+.ws :focus-visible {
+  outline: 2px solid #7fd8ff;
+  outline-offset: 1px;
+}
+
+/* Simulation Window — HTML labels projected from the 3D scene. */
+.sim-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -130%;
+  white-space: nowrap;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(127, 216, 255, 0.35);
+  background: rgba(1, 7, 26, 0.78);
+  color: #dbe8ff;
+  font:
+    500 10px/1.3 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(4px);
+  will-change: transform;
+}
+.sim-label[data-kind="region"] {
+  border-color: rgba(242, 179, 61, 0.45);
+  color: #ffe2a8;
+  text-transform: capitalize;
+}
+.sim-label[data-kind="part"] {
+  border-color: rgba(127, 216, 255, 0.45);
+  color: #bfe9ff;
+}
+.sim-window :focus-visible {
+  outline: 2px solid #7fd8ff;
+  outline-offset: 1px;
+}
